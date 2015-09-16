@@ -20,12 +20,22 @@ io.on \connection (socket) !->
     socket.broadcast.to(data.to).emit \ice data
 
   socket.on \join (data) !->
-    return unless data.rid
+    return unless data.rid?
     socket.join data.rid
-    socket.broadcast.to data.rid .emit \join socket.id
+    data.uid = socket.id
+    socket.broadcast.to data.rid .emit \join data
 
-  socket.on \part       !-> socket.broadcast.emit \part socket.id
+  socket.on \hail (data) !->
+    return unless data.to? and data.rid?
+    data.from = socket.id
+    socket.broadcast.to(data.to).emit \hail data
 
-  socket.on \disconnect !-> socket.broadcast.emit \part socket.id
+  socket.on \leave (data) !->
+    return unless data.rid?
+    socket.leave data.rid
+    data.uid = socket.id
+    socket.broadcast.emit \leave data
+
+  socket.on \disconnect !-> socket.broadcast.emit \leave uid: socket.id
 
 server.listen 9987
