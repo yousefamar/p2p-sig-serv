@@ -4,7 +4,6 @@
   "description": "A signalling server for WebRTC P2P connections",
   "main": "server.ls",
   "dependencies": {
-    "connect": "^3.4.0",
     "socket.io": "^1.3.6"
   },
   "devDependencies": {
@@ -16,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/Paraknight/p2p-sig-serv.git"
+    "url": "git+ssh://git@github.com/yousefamar/p2p-sig-serv.git"
   },
   "keywords": [
     "webrtc",
@@ -27,7 +26,7 @@
   "author": "Yousef Amar <yousef@amar.io> (http://yousefamar.com/)",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Paraknight/p2p-sig-serv/issues"
+    "url": "https://github.com/yousefamar/p2p-sig-serv/issues"
   },
-  "homepage": "https://github.com/Paraknight/p2p-sig-serv#readme"
+  "homepage": "https://github.com/yousefamar/p2p-sig-serv#readme"
 }
