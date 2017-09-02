@@ -29,14 +29,20 @@ io.on('connection', socket => {
 		if (data.rid == null)
 			return;
 
-		socket.join(data.rid);
 		data.uid = socket.id;
-		socket.broadcast.to(data.rid).emit('join', data);
+
+		let room = '';
+		for (let scope of data.rid.split('/')) {
+			room += '/' + scope;
+			data.rid = room;
+			socket.join(room);
+			socket.broadcast.to(room).emit('join', data);
+		}
 	});
 
 	// Unicast hail
 	socket.on('hail', data => {
-		if (data.to == null || data.rid == null)
+		if (data.to == null)
 			return;
 
 		data.from = socket.id;
