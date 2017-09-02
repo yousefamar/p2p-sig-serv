@@ -24,7 +24,7 @@ io.on('connection', socket => {
 		socket.broadcast.to(data.to).emit('ice', data);
 	});
 
-	// Join room
+	// Multicast join
 	socket.on('join', data => {
 		if (data.rid == null)
 			return;
@@ -43,20 +43,22 @@ io.on('connection', socket => {
 		socket.broadcast.to(data.to).emit('hail', data);
 	});
 
-	// Broadcast leave
+	// Multicast leave
 	socket.on('leave', data => {
 		if (data.rid == null)
 			return;
 
 		socket.leave(data.rid);
 		data.uid = socket.id;
-		socket.broadcast.emit('leave', data);
+		socket.broadcast.to(data.rid).emit('leave', data);
 	});
 
-	// Broadcast disconnect
+	// Multicast disconnect
 	socket.on('disconnect', () => {
-		socket.broadcast.emit('leave', {
-			uid: socket.id
+		Object.keys(socket.rooms).forEach(room => {
+			socket.broadcast.to(room).emit('leave', {
+				uid: socket.id
+			});
 		});
 	});
 
