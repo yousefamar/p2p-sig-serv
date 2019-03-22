@@ -1,6 +1,13 @@
-const http   = require('http');
-const server = http.createServer();
-const io     = require('socket.io')(server);
+const app     = require('express')();
+const server  = require('http').Server(app);
+const io      = require('socket.io')(server);
+
+app.use('/', express['static']('static'));
+app.get('/*', function(req, res){
+	res.sendFile('static/index.html', {
+		root: './'
+	});
+});
 
 io.on('connection', socket => {
 
@@ -70,4 +77,4 @@ io.on('connection', socket => {
 
 });
 
-server.listen(process.env.PORT || 8081);
+server.listen(process.env.PORT || 8090);

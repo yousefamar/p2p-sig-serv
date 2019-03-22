@@ -4,6 +4,7 @@
   "description": "A signalling server for WebRTC P2P connections",
   "main": "server.ls",
   "dependencies": {
+    "express": "^4.16.4",
     "socket.io": "^2.0.3"
   },
   "repository": {
