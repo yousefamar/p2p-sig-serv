@@ -1,0 +1,1 @@
+../p2p-peer/pkg/dist-web/index.bundled.js
