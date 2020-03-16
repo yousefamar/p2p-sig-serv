@@ -84,10 +84,11 @@ io.on('connection', socket => {
 		if (data.rid == null)
 			return;
 
+		// FIXME: Crawl down the namespace and leave those rooms too
 		socket.leave(data.rid);
 		data.uid = socket.id;
 
-		console.log(data.uid, 'left', data.to);
+		console.log(data.uid, 'left', data.rid);
 
 		socket.broadcast.to(data.rid).emit('leave', data);
 	});
