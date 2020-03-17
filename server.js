@@ -38,16 +38,9 @@ io.on('connection', socket => {
 			return;
 
 		data.uid = socket.id;
-
+		socket.join(data.rid);
 		console.log(data.uid, 'joined', data.rid);
-
-		let room = '';
-		for (let scope of data.rid.split('/')) {
-			room += '/' + scope;
-			data.rid = room;
-			socket.join(room);
-			socket.broadcast.to(room).emit('join', data);
-		}
+		socket.broadcast.to(data.rid).emit('join', data);
 	});
 
 	// Multicast message
@@ -59,12 +52,7 @@ io.on('connection', socket => {
 
 		console.log(data.uid, 'roomcasted', data);
 
-		let room = '';
-		for (let scope of data.rid.split('/')) {
-			room += '/' + scope;
-			data.rid = room;
-			socket.broadcast.to(room).emit('roomcast', data);
-		}
+		socket.broadcast.to(data.rid).emit('roomcast', data);
 	});
 
 	// Unicast hail
@@ -84,7 +72,6 @@ io.on('connection', socket => {
 		if (data.rid == null)
 			return;
 
-		// FIXME: Crawl down the namespace and leave those rooms too
 		socket.leave(data.rid);
 		data.uid = socket.id;
 
@@ -94,9 +81,9 @@ io.on('connection', socket => {
 	});
 
 	// Multicast disconnect
-	socket.on('disconnect', () => {
+	socket.on('disconnecting', () => {
 		Object.keys(socket.rooms).forEach(room => {
-			console.log(data.uid, 'left', data.to);
+			console.log(socket.id, 'left', room);
 
 			socket.broadcast.to(room).emit('leave', {
 				uid: socket.id
