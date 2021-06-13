@@ -3,7 +3,10 @@ const app     = express();
 const server  = require('http').Server(app);
 const io      = require('socket.io')(server, {
 	cors: {
-		origin: '*',
+		credentials: true,
+		origin: (origin, callback) => {
+			return callback(null, true);
+		}
 	}
 });
 
