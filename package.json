@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "A signalling server for WebRTC P2P connections",
   "main": "server.ls",
+  "scripts": {
+    "start": "node server.js"
+  },
   "dependencies": {
     "express": "^4.16.4",
     "socket.io": "^4.1.2"
